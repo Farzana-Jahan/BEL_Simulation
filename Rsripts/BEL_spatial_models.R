@@ -41,7 +41,7 @@ BEL_ind_scotlip<-list()
 
 for(i in 1:5){
   data1<-Data_scot_sim[[i]]
-  data1$raw.SIR[data1$raw.SIR==0]<-(data1$Observed+0.1/data1$Expected)
+  data1$raw.SIR[data1$raw.SIR==0]<-(data1$Observed[data1$raw.SIR==0]+0.1/data1$Expected[data1$raw.SIR==0])
   y<- log(data1$raw.SIR)
   x<- cbind(1, data1$x)
   # initial values needed before fitting models
