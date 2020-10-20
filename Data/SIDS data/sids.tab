@@ -1,0 +1,29 @@
+!table
+!version 300
+!charset Neutral
+
+Definition Table
+  Type NATIVE Charset "Neutral"
+  Fields 22
+    CNTY_ID Float ;
+    AREA Float ;
+    PERIMETER Float ;
+    CNTY_ Float ;
+    NAME Char (254) ;
+    FIPS Char (254) ;
+    FIPSNO Float ;
+    CRESS_ID Integer ;
+    BIR74 Float ;
+    SID74 Float ;
+    NWBIR74 Float ;
+    BIR79 Float ;
+    SID79 Float ;
+    NWBIR79 Float ;
+    east Float ;
+    north Float ;
+    x Float ;
+    y Float ;
+    lon Float ;
+    lat Float ;
+    L_id Float ;
+    M_id Float ;
