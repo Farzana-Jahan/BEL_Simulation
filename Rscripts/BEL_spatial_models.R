@@ -16,13 +16,24 @@ require(scales)         # For rescale()
 require(dplyr)          # For inner_join(), bind_rows(),### between(), mutate()
 require(gridExtra)      # For grid.arrange()
 require(tidyr)          # For gather()
-
+require(spdep)
 
 
 # reading Rdata
 # reading neighbourhood matrix from text file
+#Areas_25_nb<-read.gal("Data/sim_data/My New Shapefile_25areas.gal",override.id = TRUE)
+#W<-nb2mat(Areas_25_nb,style="B")
+#nblist<-nb2listw(Areas_25_nb)
+#creating symmetric neighbourhood matrix for BYM in CARBAYES
+#rownames(W)<-c()
+#ind <- upper.tri(W)
+#W[ind] <- t(W)[ind] 
+#isSymmetric(W)
+#saveRDS(W,file ="Data/sim_data/W_25areas.RDS", version=2)
 
-W<-readRDS("Data/scotlip/W.RDS")
+
+
+W<-readRDS("Data/sim_data/W_25areas")
 
 ni<-rowSums(W) # no. of neighbours for each area
 R<-diag(ni)
@@ -31,17 +42,17 @@ for(i in 1:nrow(R))
   R[i,which(W[i,]==1)]<- -1
 }
 
-load("Data/sim_data/sim_norm_scotlip.RData")
+load("Data/sim_data/sim_norm_25.RData")
 
 # creating blank list for all the diff realisations of the simulations
-BEL_BYM_scotlip<- list()
-BEL_Leroux_scotlip<-list()
-Porter_BSHEL_scotlip<-list()
-BEL_ind_scotlip<-list()
+BEL_BYM_sim_25<- list()
+BEL_Leroux_sim_25<-list()
+Porter_BSHEL_sim_25<-list()
+BEL_ind_sim_25<-list()
 
 for(i in 1:5){
-  data1<-Data_scot_sim[[i]]
-  data1$raw.SIR[data1$raw.SIR==0]<-(data1$Observed[data1$raw.SIR==0]+0.1/data1$Expected[data1$raw.SIR==0])
+  data1<-Data_sim1[[i]]
+  data1$raw.SIR[data1$raw.SIR==0]<-0.1
   y<- log(data1$raw.SIR)
   x<- cbind(1, data1$x)
   # initial values needed before fitting models
@@ -75,19 +86,20 @@ for(i in 1:5){
   #clusterEvalQ(cl=cluster,.libPaths("c:/software/Rpackages"))
   clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
-  BEL_BYM_scotlip[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=1,niter=1000000,
-                                                                                   beta_init, psi_init, tau_init,R, wi, sd_psi=0.35, 
-                                                                                   sd_beta=1, sd_tau=0.4)})
-  BEL_ind_scotlip[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0,niter=1000000,
-                                                                              beta_init, psi_init, tau_init,R, wi, sd_psi=0.35, 
-                                                                              sd_beta=1, sd_tau=0.4)})
+  BEL_BYM_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=1,niter=1000000,
+                                                                                   beta_init, psi_init, tau_init,R, wi, sd_psi=0.35,
+                                                                                  sd_beta=3,sd_tau = 0.6)})
+
+  BEL_ind_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0,niter=1000000,
+                                                                              beta_init, psi_init, tau_init,R, wi, sd_psi=1.8, 
+                                                                              sd_beta=2, sd_tau=0.6)})
 
   
-  # fitting BEL BYM model taking rho= 0.75
-  
-  BEL_leroux_scotlip[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.75,niter=1000000,
-                                                                                 beta_init, psi_init, tau_init,R, wi, sd_psi=0.35, 
-                                                                                 sd_beta=1, sd_tau=0.4)})
+  # fitting BEL BYM model taking rho= 0.95
+
+  BEL_Leroux_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.95,niter=1000000,
+                                                                                 beta_init, psi_init, tau_init,R, wi, sd_psi=0.5, 
+                                                                                 sd_beta=2.6, sd_tau=0.6)})
 
   
   # Porter's BSHEL model
@@ -108,19 +120,21 @@ for(i in 1:5){
   wi<-wi_mu
   
   #Fitting the Porter BSHEL model
-  
+  library(parallel)
+  cluster<-makeCluster(3)
+  #clusterEvalQ(cl=cluster,.libPaths("c:/software/Rpackages"))
+  clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init"
                                        ,"B","B_plus","q","M","MBM", "wi"))
-  Porter_BSHEL_scotlip[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
+  Porter_BSHEL_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
                                                                                psi_init, tau_init,M,MBM, wi, 
-                                                                               sd_psi=0.09, 
-                                                                               sd_beta=0.5, sd_tau=0.9)})
+                                                                               sd_psi=0.000001, 
+                                                                               sd_beta=0.00000001, sd_tau=3)})
   
-  stopCluster(cl=cluster)
   
 }
-save(BEL_BYM_scotlip,file="Results/BEL_BYM_scotlip_sim1.RData")
-save(BEL_ind_scotlip,file="Results/BEL_BYM_scotlip_sim1.RData")
-save(BEL_leroux_scotlip,file="Results/BEL_Leroux_scotlip_sim1.RData")
-save(Porter_BSHEL_scotlip,file="Results/BSHEL_porter_scotlip_sim1.RData")
+save(BEL_BYM_sim_25,file="Results/BEL_BYM_sim_25_sim1.RData")
+save(BEL_ind_sim_25,file="Results/BEL_BYM_sim_25_sim1.RData")
+save(BEL_leroux_sim_25,file="Results/BEL_Leroux_sim_25_sim1.RData")
+save(Porter_BSHEL_sim_25,file="Results/BSHEL_porter_sim_25_sim1.RData")
 
