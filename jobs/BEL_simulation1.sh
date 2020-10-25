@@ -76,7 +76,7 @@ run_program(){
   #make sure we change to the current directory
   #where this bash job script is
   cd $PBS_O_WORKDIR
-  Rscript "Rscripts/BEL_Spatial_models.R" 
+  Rscript "Rscripts/sim_run_1.R" 
   #this script installed all of the packages locally,
   #since you do not have root access to HPC.
   #This just means we need to let R now where we installed
