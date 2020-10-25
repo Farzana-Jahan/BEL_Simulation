@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <title>My New Shapefile_25areas</title>
+    <layers>
+        <layer>
+            <datasource>
+                <type>ESRI Shapefile</type>
+                <path>My New Shapefile_25areas.shp</path>
+            </datasource>
+            <layername>My New Shapefile_25areas</layername>
+            <title/>
+            <variable_order>
+                <time_ids>
+                    <id>time 0</id>
+                </time_ids>
+                <var>id</var>
+            </variable_order>
+            <custom_classifications/>
+            <weights_entries>
+                <weights>
+                    <title>My New Shapefile_25areas</title>
+                    <default/>
+                    <meta_info>
+                        <weights_type>rook</weights_type>
+                        <order>1</order>
+                        <inc_lower_orders>false</inc_lower_orders>
+                        <path>My New Shapefile_25areas.gal</path>
+                        <id_variable>id</id_variable>
+                        <symmetry>symmetric</symmetry>
+                        <num_observations>25</num_observations>
+                        <min_neighbors>4</min_neighbors>
+                        <max_neighbors>4</max_neighbors>
+                        <mean_neighbors>4</mean_neighbors>
+                        <median_neighbors>4</median_neighbors>
+                        <non_zero_perc>16</non_zero_perc>
+                    </meta_info>
+                </weights>
+            </weights_entries>
+            <default_vars>
+                <default_var>
+                    <name/>
+                    <time_id>time 0</time_id>
+                </default_var>
+                <default_var>
+                    <name/>
+                    <time_id>time 0</time_id>
+                </default_var>
+                <default_var>
+                    <name/>
+                    <time_id>time 0</time_id>
+                </default_var>
+                <default_var>
+                    <name/>
+                    <time_id>time 0</time_id>
+                </default_var>
+            </default_vars>
+        </layer>
+    </layers>
+</project>

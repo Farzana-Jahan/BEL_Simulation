@@ -11,7 +11,7 @@ library(gridExtra)
 library(rgdal)
 
 
-map<- readOGR("Data/sim_data/My New Shapefile_2500areas.shp",verbose=F)
+map<- readOGR("Data/sim_data/My New Shapefile_100areas.shp",verbose=F)
 
 # Number of areas
 N <- length(map)
@@ -48,7 +48,7 @@ r <- 3              # range of log-USRF to control effect size
 y.total <- N*3      # Total observed counts  (Set by Master Script)  - I suggest base on N
 
 #==========================================================================
-  # Generate synthetic data # # scenario 1, area=2500, N small, count (smaller),bandwith small,Normal counts
+  # Generate synthetic data # # scenario 1, area=100, N small, count (smaller),bandwith high 10,Normal counts
   #==========================================================================
 Data_sim1<- list()
 for(i in 1:5){
@@ -117,17 +117,17 @@ for(i in 1:5){
 }
 
 
-save(Data_sim1,file="Data/sim_data/sim_norm_2500.RData")
-# high spatial autocorrleation, bandwith=50, 2500 areas, norm
+save(Data_sim1,file="Data/sim_data/sim_norm_100.RData",version = 2)
+# high spatial autocorrleation, bandwith=5, 100 areas, norm
 #==========================================================================
-# Generate synthetic data # # scenario 1, area=2500, N small, count (smaller),bandwith small,Normal counts
+# Generate synthetic data # # scenario 1, area=100, N small, count (smaller),bandwith moderate,Normal counts
 #==========================================================================
 Data_sim2<- list()
 for(i in 1:5){
   set.seed(i)
   
   # 1) Generate log-underlying spatial random field
-  log.USRF <- Gaus.decay(d, 50)			# Spatial RF with specified autocorrelation
+  log.USRF <- Gaus.decay(d, 5)			# Spatial RF with specified autocorrelation
   log.USRF <- log.USRF %*% rnorm(N, 0.00, 0.01)			# Convert N x N SRF to N-length vector
   r.old <- max(log.USRF) - min(log.USRF)
   log.USRF <- log.USRF / r.old * r                # The range will now equal r
@@ -189,9 +189,9 @@ for(i in 1:5){
 }
 
 
-save(Data_sim2,file="Data/sim_data/sim2_norm_2500.RData")
+save(Data_sim2,file="Data/sim_data/sim2_norm_100.RData",version = 2)
 #==========================================================================
-# Generate synthetic data # # scenario 1, area=2500, N small, count (smaller),bandwith very small,Normal counts
+# Generate synthetic data # # scenario 1, area=100, N small, count (smaller),bandwith very small,Normal counts
 #==========================================================================
 Data_sim3<- list()
 for(i in 1:5){
@@ -260,5 +260,5 @@ for(i in 1:5){
 }
 
 
-save(Data_sim3,file="Data/sim_data/sim3_norm_2500.RData")
+save(Data_sim3,file="Data/sim_data/sim3_norm_100.RData",version = 2)
 

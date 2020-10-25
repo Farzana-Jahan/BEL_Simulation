@@ -16,20 +16,8 @@ require(scales)         # For rescale()
 require(dplyr)          # For inner_join(), bind_rows(),### between(), mutate()
 require(gridExtra)      # For grid.arrange()
 require(tidyr)          # For gather()
-require(spdep)
+#require(spdep)
 
-
-# reading Rdata
-# reading neighbourhood matrix from text file
-#Areas_25_nb<-read.gal("Data/sim_data/My New Shapefile_25areas.gal",override.id = TRUE)
-#W<-nb2mat(Areas_25_nb,style="B")
-#nblist<-nb2listw(Areas_25_nb)
-#creating symmetric neighbourhood matrix for BYM in CARBAYES
-#rownames(W)<-c()
-#ind <- upper.tri(W)
-#W[ind] <- t(W)[ind] 
-#isSymmetric(W)
-#saveRDS(W,file ="Data/sim_data/W_25areas.RDS", version=2)
 
 
 
