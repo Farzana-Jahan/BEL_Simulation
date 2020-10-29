@@ -39,7 +39,7 @@ load("Data/sim_data/sim_norm_100.RData")
 # creating blank list for all the diff realisations of the simulations
 BEL_Leroux_sim_100<- list()
 
-
+for(i in 1:5){
 
   data1<-Data_sim1[[i]]
   data1$raw.SIR[data1$raw.SIR==0]<-0.1
@@ -78,7 +78,7 @@ BEL_Leroux_sim_100<- list()
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
   
  
-  for(i in 1:5){
+  
   BEL_Leroux_sim_100[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.99, niter=1000000,
                                                                                      beta_init, psi_init, tau_init,R, wi, sd_psi=0.2, 
                                                                                      sd_beta=1, sd_tau=0.3)})
@@ -86,6 +86,5 @@ BEL_Leroux_sim_100<- list()
 
  
 }
-
 save(BEL_Leroux_sim_100,file="Results/BEL_Leroux_sim_100_sim1.RData")
 
