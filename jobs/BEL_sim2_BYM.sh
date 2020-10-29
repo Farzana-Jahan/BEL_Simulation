@@ -2,8 +2,8 @@
 
 #PBS -N BEL-SimBYM2
 #PBS -l ncpus=3
-#PBS -l mem=10GB
-#PBS -l walltime=24:00:00
+#PBS -l mem=30GB
+#PBS -l walltime=15:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-SimBYM2_stdout.out
 #PBS -e BEL-SimBYM2_stderr.out
