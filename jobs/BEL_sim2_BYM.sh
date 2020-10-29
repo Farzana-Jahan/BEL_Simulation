@@ -2,8 +2,8 @@
 
 #PBS -N BEL-Simulation1
 #PBS -l ncpus=3
-#PBS -l mem=40GB
-#PBS -l walltime=30:00:00
+#PBS -l mem=10GB
+#PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-Simulation2_stdout.out
 #PBS -e BEL-Simulation2_stderr.out
@@ -76,7 +76,7 @@ run_program(){
   #make sure we change to the current directory
   #where this bash job script is
   cd $PBS_O_WORKDIR
-  Rscript "Rscripts/sim_run_2.R" 
+  Rscript "Rscripts/sim_run_2_BYM.R" 
   #this script installed all of the packages locally,
   #since you do not have root access to HPC.
   #This just means we need to let R now where we installed
