@@ -3,7 +3,7 @@
 #PBS -N BEL-Simulation1
 #PBS -l ncpus=3
 #PBS -l mem=10GB
-#PBS -l walltime=10:00:00
+#PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-Simulation1_stdout.out
 #PBS -e BEL-Simulation1_stderr.out
