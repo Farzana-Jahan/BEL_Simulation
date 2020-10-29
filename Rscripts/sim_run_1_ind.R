@@ -1,8 +1,3 @@
-# for office PC only run the /libpaths code, otherwise comment it out
-# .libPaths("c:/software/Rpackages")
-#devtools::install_github("danwkenn/BELSpatial") # installing the package
-#devtools::install_local("C:\\R dir\\Leroux-Empirical-Likelihood-master\\Leroux-Empirical-Likelihood-master\\BELSpatial",force=TRUE)
-# loading the data (Scottish Lip Cancer Data)
 
 # libraries
 require(BELSpatial)
@@ -32,10 +27,8 @@ for(i in 1:nrow(R))
 
 load("Data/sim_data/sim_norm_25.RData")
 
-# creating blank list for all the diff realisations of the simulations
 
-BEL_Leroux_sim_25<-list()
-
+BEL_ind_sim_25<-list()
 
 for(i in 1:5){
   data1<-Data_sim1[[i]]
@@ -73,15 +66,10 @@ for(i in 1:5){
   #clusterEvalQ(cl=cluster,.libPaths("c:/software/Rpackages"))
   clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
- 
-  
-  BEL_Leroux_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.95,niter=1000000,
-                                                                                 beta_init, psi_init, tau_init,R, wi, sd_psi=0.5, 
-                                                                                 sd_beta=2.6, sd_tau=0.6)})
 
-  
- 
+
+BEL_ind_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0,niter=1000000,
+                                                                              beta_init, psi_init, tau_init,R, wi, sd_psi=1.8, 
+                                                                              sd_beta=2, sd_tau=0.6)})
 }
-save(BEL_Leroux_sim_25,file="Results/BEL_Leroux_sim_25_sim1.RData")
-
-
+save(BEL_ind_sim_25,file="Results/BEL_BYM_sim_25_sim1.RData")

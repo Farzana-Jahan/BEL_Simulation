@@ -1,9 +1,3 @@
-# for office PC only run the /libpaths code, otherwise comment it out
-# .libPaths("c:/software/Rpackages")
-#devtools::install_github("danwkenn/BELSpatial") # installing the package
-#devtools::install_local("C:\\R dir\\Leroux-Empirical-Likelihood-master\\Leroux-Empirical-Likelihood-master\\BELSpatial",force=TRUE)
-# loading the data (Scottish Lip Cancer Data)
-
 # libraries
 require(BELSpatial)
 require(gmm)
@@ -32,10 +26,8 @@ for(i in 1:nrow(R))
 
 load("Data/sim_data/sim_norm_25.RData")
 
-# creating blank list for all the diff realisations of the simulations
 
-BEL_Leroux_sim_25<-list()
-
+Porter_BSHEL_sim_25<-list()
 
 for(i in 1:5){
   data1<-Data_sim1[[i]]
@@ -53,35 +45,36 @@ for(i in 1:5){
   g<- 10# G prior evaluated at 10 for regression coefficients' prior (Zellner prior)
   prior_mean_beta<- rep(0,p) # p is the number of regression parameters, in case of one covariate, p=2
   beta_init<- rnorm(2,prior_mean_beta, (1/g)*tau_inv_init)
-  wi_init<- 1/n # y be the response variable from the data
-  psi_init <- rep(0,n)
-  
-  
-  # calculating MELE of Beta, beta_mele
-  var<- as.numeric(var(y- x%*%beta_init))
+  wi_init<- 1/n # y be the response variable from the data 
+  B<-W
+  B_plus<-diag(rowSums(B))
+  M=M_create(y,x,B)
+  MBM=MBM_create(M,B,B_plus)
+  q=dim(MBM)[2]
+  psi_init <- rep(0,q) 
   wi=wi_init
-  beta_mele<- mele(x,tet=beta_init,y=y,var=var)
-  mu_init<- x%*% beta_mele + psi_init
+  var<- as.numeric(var(y- x%*%beta_init))
+  beta_mele<- mele( x = x, tet= beta_init,y=y,var=var) 
+  mu_init<- x%*% beta_mele + M%*%psi_init
   beta_init<-beta_mele
+  
   wi_mu<- el.test(y-mu_init,0)$wts # computing el weights using emplik package
   wi_mu<-wi_mu/sum(wi_mu) # sum(wi) = 1 and wi>0 constraints 
   wi<-wi_mu
   
-  # fitting BEL BYM model taking rho= 1
+  #Fitting the Porter BSHEL model
   library(parallel)
   cluster<-makeCluster(3)
   #clusterEvalQ(cl=cluster,.libPaths("c:/software/Rpackages"))
   clusterEvalQ(cl=cluster,library(BELSpatial))
-  clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
- 
+  clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init"
+                                       ,"B","B_plus","q","M","MBM", "wi"))
+  Porter_BSHEL_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
+                                                                               psi_init, tau_init,M,MBM, wi, 
+                                                                               sd_psi=0.000001, 
+                                                                               sd_beta=0.00000001, sd_tau=3)})
   
-  BEL_Leroux_sim_25[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.95,niter=1000000,
-                                                                                 beta_init, psi_init, tau_init,R, wi, sd_psi=0.5, 
-                                                                                 sd_beta=2.6, sd_tau=0.6)})
-
   
- 
 }
-save(BEL_Leroux_sim_25,file="Results/BEL_Leroux_sim_25_sim1.RData")
-
+save(Porter_BSHEL_sim_25,file="Results/BSHEL_porter_sim_25_sim1.RData")
 
