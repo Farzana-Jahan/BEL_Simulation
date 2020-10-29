@@ -38,9 +38,7 @@ for(i in 1:nrow(R))
 load("Data/sim_data/sim_norm_100.RData")
 # creating blank list for all the diff realisations of the simulations
 BEL_BYM_sim_100<- list()
-BEL_Leroux_sim_100<-list()
-Porter_BSHEL_sim_100<-list()
-BEL_ind_sim_100<-list()
+
 
 for(i in 1:5){
   data1<-Data_sim1[[i]]
@@ -79,14 +77,7 @@ for(i in 1:5){
   clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
   
-  BEL_ind_sim_100[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0,niter=1000000,
-                                                              beta_init, psi_init, tau_init,R, wi, sd_psi=1.6, 
-                                                                  sd_beta=3, sd_tau=0.3)})
-  
-  
-  # fitting BEL BYM model taking rho= 0.95
-  clusterEvalQ(cl=cluster,library(BELSpatial))
-  clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
+ 
   
   BEL_BYM_sim_100<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=1, niter=1000000,
                                                                                      beta_init, psi_init, tau_init,R, wi, sd_psi=0.2, 
@@ -95,44 +86,8 @@ for(i in 1:5){
   clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init","R", "wi"))
   
-  BEL_Leroux_sim_100<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.95, niter=1000000,
-                                                                              beta_init, psi_init, tau_init,R, wi, sd_psi=0.2, 
-                                                                              sd_beta=1.3, sd_tau=0.3)})
-  
-  
-  # Porter's BSHEL model
-  B<-W
-  B_plus<-diag(rowSums(B))
-  M=M_create(y,x,B)
-  MBM=MBM_create(M,B,B_plus)
-  q=dim(MBM)[2]
-  psi_init <- rep(0,q) 
-  wi=wi_init
-  var<- as.numeric(var(y- x%*%beta_init))
-  beta_mele<- mele( x = x, tet= beta_init,y=y,var=var) 
-  mu_init<- x%*% beta_mele + M%*%psi_init
-  beta_init<-beta_mele
-  
-  wi_mu<- el.test(y-mu_init,0)$wts # computing el weights using emplik package
-  wi_mu<-wi_mu/sum(wi_mu) # sum(wi) = 1 and wi>0 constraints 
-  wi<-wi_mu
-  
-  #Fitting the Porter BSHEL model
-  
-  #clusterEvalQ(cl=cluster,.libPaths("c:/software/Rpackages"))
-  clusterEvalQ(cl=cluster,library(BELSpatial))
-  clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init"
-                                       ,"B","B_plus","q","M","MBM", "wi"))
-  Porter_BSHEL_sim_100[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
-                                                                                   psi_init, tau_init,M,MBM, wi, 
-                                                                                   sd_psi=0.0000001, 
-                                                                                   sd_beta=0.00000001, sd_tau=1.5)})
-  
-  
+ 
 }
 
 save(BEL_BYM_sim_100,file="Results/BEL_BYM_sim_100_sim1.RData")
-save(BEL_ind_sim_100,file="Results/BEL_BYM_sim_100_sim1.RData")
-save(BEL_leroux_sim_100,file="Results/BEL_Leroux_sim_100_sim1.RData")
-save(Porter_BSHEL_sim_100,file="Results/BSHEL_porter_sim_100_sim1.RData")
 
