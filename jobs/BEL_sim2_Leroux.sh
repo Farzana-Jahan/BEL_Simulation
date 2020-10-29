@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-#PBS -N BEL-SimBYM2
+#PBS -N BEL-SimLeroux2
 #PBS -l ncpus=3
 #PBS -l mem=10GB
 #PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
-#PBS -o BEL-SimBYM2_stdout.out
-#PBS -e BEL-SimBYM2_stderr.out
+#PBS -o BEL-SimLeroux2_stdout.out
+#PBS -e BEL-SimLeroux2_stderr.out
 
 # More info on PBS directives can be found here
 # http://qcd.phys.cmu.edu/QCDcluster/pbs/run_serial.html
@@ -76,7 +76,7 @@ run_program(){
   #make sure we change to the current directory
   #where this bash job script is
   cd $PBS_O_WORKDIR
-  Rscript "Rscripts/sim_run_2_BYM.R" 
+  Rscript "Rscripts/sim_run_2_Leroux.R" 
   #this script installed all of the packages locally,
   #since you do not have root access to HPC.
   #This just means we need to let R now where we installed

@@ -37,7 +37,7 @@ for(i in 1:nrow(R))
 
 load("Data/sim_data/sim_norm_100.RData")
 # creating blank list for all the diff realisations of the simulations
-BEL_BYM_sim_100<- list()
+BEL_ind_sim_100<- list()
 
 
 for(i in 1:5){
@@ -79,12 +79,13 @@ for(i in 1:5){
   
  
   
-  BEL_BYM_sim_100<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=1, niter=1000000,
+  BEL_ind_sim_100<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0, niter=1000000,
                                                                                      beta_init, psi_init, tau_init,R, wi, sd_psi=0.2, 
                                                                                      sd_beta=1, sd_tau=0.3)})
   
+
  
 }
 
-save(BEL_BYM_sim_100,file="Results/BEL_BYM_sim_100_sim1.RData")
+save(BEL_ind_sim_100,file="Results/BEL_ind_sim_100_sim1.RData")
 
