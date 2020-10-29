@@ -3,7 +3,7 @@
 #PBS -N BEL-LerouxSim
 #PBS -l ncpus=3
 #PBS -l mem=10GB
-#PBS -l walltime=10:00:00
+#PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-LerouxSim_stdout.out
 #PBS -e BEL-LerouxSim_stderr.out
