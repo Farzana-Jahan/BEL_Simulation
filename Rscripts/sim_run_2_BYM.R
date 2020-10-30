@@ -81,7 +81,7 @@ for(i in 1:5){
   
   BEL_BYM_sim_100[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=1, niter=1000000,
                                                                                      beta_init, psi_init, tau_init,R, wi, sd_psi=0.2, 
-                                                                                     sd_beta=1, sd_tau=0.3)})
+                                                                                     sd_beta=0.85, sd_tau=0.4)})
   
  
 }
