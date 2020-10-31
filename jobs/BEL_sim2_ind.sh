@@ -2,7 +2,7 @@
 
 #PBS -N BEL-Simind2
 #PBS -l ncpus=3
-#PBS -l mem=30GB
+#PBS -l mem=80GB
 #PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-Simind2_stdout.out
