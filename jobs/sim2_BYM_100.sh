@@ -76,7 +76,7 @@ run_program(){
   #make sure we change to the current directory
   #where this bash job script is
   cd $PBS_O_WORKDIR
-  Rscript "Rscripts/sim2_100_BYM.R" 
+  Rscript "Rscripts/BYM_sim2_100.R" 
   #this script installed all of the packages locally,
   #since you do not have root access to HPC.
   #This just means we need to let R now where we installed
