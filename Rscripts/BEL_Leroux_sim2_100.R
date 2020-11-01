@@ -79,7 +79,7 @@ for(i in 1:5){
   
  
   
-  BEL_Leroux_sim2_100[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0, niter=1000000,
+  BEL_Leroux_sim2_100[[i]]<-clusterApply(cl=cluster, x=1:3, function(z){BEL_leroux_new(y,x,n,p,var,rho=0.9, niter=1000000,
                                                                                      beta_init, psi_init, tau_init,R, wi, sd_psi=1.4, 
                                                                                      sd_beta=2, sd_tau=0.6)})
   
