@@ -37,7 +37,7 @@ for(i in 1:nrow(R))
 
 load("Data/sim_data/sim_norm2_100.RData")
 # creating blank list for all the diff realisations of the simulations
-BEL_ind2_sim_25<- list()
+BEL_BYM_sim2_100<- list()
 
 
 for(i in 1:5){
