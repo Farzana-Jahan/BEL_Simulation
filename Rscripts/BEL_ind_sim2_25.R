@@ -1,4 +1,4 @@
- for office PC only run the /libpaths code, otherwise comment it out
+ #for office PC only run the /libpaths code, otherwise comment it out
 # .libPaths("c:/software/Rpackages")
 #devtools::install_github("danwkenn/BELSpatial") # installing the package
 #devtools::install_local("C:\\R dir\\Leroux-Empirical-Likelihood-master\\Leroux-Empirical-Likelihood-master\\BELSpatial",force=TRUE)
