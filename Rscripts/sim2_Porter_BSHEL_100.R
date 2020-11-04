@@ -15,7 +15,7 @@ require(tidyr)          # For gather()
 
 
 
-W<-readRDS("Data/sim_data/W_25areas")
+W<-readRDS("Data/sim_data/W_100areas")
 
 ni<-rowSums(W) # no. of neighbours for each area
 R<-diag(ni)
@@ -24,10 +24,10 @@ for(i in 1:nrow(R))
   R[i,which(W[i,]==1)]<- -1
 }
 
-load("Data/sim_data/sim_norm2_25.RData")
+load("Data/sim_data/sim_norm2_100.RData")
 
 
-Porter_BSHEL_sim2_25<-list()
+Porter_BSHEL_sim2_100<-list()
 
 for(i in 1:5){
   data1<-Data_sim1[[i]]
@@ -69,11 +69,11 @@ for(i in 1:5){
   clusterEvalQ(cl=cluster,library(BELSpatial))
   clusterExport(cl=cluster,varlist = c("y","x","n","p","var","beta_init", "psi_init", "tau_init"
                                        ,"B","B_plus","q","M","MBM", "wi"))
-  Porter_BSHEL_sim2_25[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
+  Porter_BSHEL_sim2_100[[i]]<-clusterApply(cl=cluster, x=1:3, fun= function(z){BSHEL(y,x,n,p,q,var,niter=1000000,beta_init, 
                                                                                psi_init, tau_init,M,MBM, wi, 
                                                                                sd_psi=0.0001, 
                                                                                sd_beta=0.0001, sd_tau=3)})
   
   
 }
-save(Porter_BSHEL_sim2_25,file="Results/BSHEL_porter_sim2_25.RData")
+save(Porter_BSHEL_sim2_100,file="Results/BSHEL_porter_sim2_100.RData")
