@@ -2,8 +2,8 @@
 
 #PBS -N BEL-Simporter2
 #PBS -l ncpus=3
-#PBS -l mem=20GB
-#PBS -l walltime=24:00:00
+#PBS -l mem=10GB
+#PBS -l walltime=48:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-Simporter2_stdout.out
 #PBS -e BEL-Simporter2_stderr.out
@@ -76,7 +76,7 @@ run_program(){
   #make sure we change to the current directory
   #where this bash job script is
   cd $PBS_O_WORKDIR
-  Rscript "Rscripts/sim2_Porter_BSHEL_25.R" 
+  Rscript "Rscripts/sim2_Porter_BSHEL_100.R" 
   #this script installed all of the packages locally,
   #since you do not have root access to HPC.
   #This just means we need to let R now where we installed
