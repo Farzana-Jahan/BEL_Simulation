@@ -15,7 +15,7 @@ require(tidyr)          # For gather()
 
 
 
-W<-readRDS("Data/sim_data/W_100areas")
+W<-readRDS("Data/sim_data/W_100areas.RDS")
 
 ni<-rowSums(W) # no. of neighbours for each area
 R<-diag(ni)
