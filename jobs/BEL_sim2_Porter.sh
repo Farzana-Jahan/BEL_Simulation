@@ -2,11 +2,11 @@
 
 #PBS -N BEL-Simporter2
 #PBS -l ncpus=3
-#PBS -l mem=10GB
+#PBS -l mem=100GB
 #PBS -l walltime=48:00:00
 #PBS -l cpuarch=avx2
-#PBS -o BEL-Simporter2_stdout.out
-#PBS -e BEL-Simporter2_stderr.out
+#PBS -o BEL-Sim2porter100_stdout.out
+#PBS -e BEL-Sim2porter100_stderr.out
 
 # More info on PBS directives can be found here
 # http://qcd.phys.cmu.edu/QCDcluster/pbs/run_serial.html
