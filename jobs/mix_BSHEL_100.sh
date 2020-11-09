@@ -3,7 +3,7 @@
 #PBS -N BEL-mixPorter100
 #PBS -l ncpus=3
 #PBS -l mem=100GB
-#PBS -l walltime=30:00:00
+#PBS -l walltime=50:00:00
 #PBS -l cpuarch=avx2
 #PBS -o BEL-mixPorter100_stdout.out
 #PBS -e BEL-mixPorter100_stderr.out
