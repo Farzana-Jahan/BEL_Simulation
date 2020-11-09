@@ -33,7 +33,7 @@ for(i in 1:5){
   data1<-Data_mix[[i]]
   data1$raw.SIR[data1$raw.SIR==0]<-0.1
   y<- log(data1$raw.SIR)
-  x<- cbLeroux(1, data1$x)
+  x<- cbind(1, data1$x)
   # initial values needed before fitting models
   
   n<- length(data1$raw.SIR) # no. of observations
