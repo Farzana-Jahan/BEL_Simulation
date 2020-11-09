@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-#PBS -N BEL-mixBYM
+#PBS -N BEL-mixLeroux
 #PBS -l ncpus=3
 #PBS -l mem=80GB
 #PBS -l walltime=24:00:00
 #PBS -l cpuarch=avx2
-#PBS -o BEL-mixBYM_stdout.out
-#PBS -e BEL-mixBYM_stderr.out
+#PBS -o BEL-mixLeroux_stdout.out
+#PBS -e BEL-mixLeroux_stderr.out
 
 # More info on PBS directives can be found here
 # http://qcd.phys.cmu.edu/QCDcluster/pbs/run_serial.html
